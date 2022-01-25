@@ -236,6 +236,10 @@ html, body {
 	padding-bottom: 8px;
 }
 
+.featured_image {
+	width:270px;
+}
+
 .explore {
 	text-transform: uppercase;
 	color:  #212121;
@@ -257,11 +261,15 @@ html, body {
 }
 
 .tab-content {
-	margin-top: 50px;
+	margin-top: 70px;
 	display: flex;
-	justify-content: space-between;
-	margin-bottom: 120px;
+	justify-content: space-around;
+	align-content: space-around;
+	margin-bottom: 90px;
+	flex-wrap: wrap;
+	row-gap: 20px;
 }
+
 .tab-content .block {
 	height: 270px;
 	width: 270px;
