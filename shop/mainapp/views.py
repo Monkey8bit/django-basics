@@ -14,7 +14,7 @@ def index(request):
     return render(request,
      "mainapp/index.html",
       context={
-        "title": "Главная",
+        "title": "Main",
         "menu": menu,
         "products": product,
     })
@@ -28,15 +28,14 @@ def product(request, pk=None):
     ]
     category = ProductCategory.objects.all()
     return render(request, "mainapp/products.html", context={
-        "title": "Продукты",
+        "title": "Products",
         "menu": menu,
         "products": products,
         "categories": category,
-        "pk": pk,
     })
 
 def contact(request):
     return render(request, "mainapp/contact.html", context={
-        "title": "Контакты",
+        "title": "Contacts",
         "menu": menu
     })

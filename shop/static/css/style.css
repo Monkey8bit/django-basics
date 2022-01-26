@@ -54,6 +54,7 @@ html, body {
 	text-transform: uppercase;
 	text-decoration: none;
 	padding: 10px 13px;
+	transition: color 0.9s
 }
 .menu .active {
 	color: #212121;
@@ -63,12 +64,10 @@ html, body {
 .menu a:hover {
 	color: #212121;
 	font-weight: 700;
-	border-bottom: 3px solid #212121;
 }
 .menu a:active {
 	color: #8c8c8c;
 	font-weight: 700;
-	border-bottom: 3px solid #212121;
 }
 
 .search {
@@ -107,6 +106,19 @@ html, body {
 	text-align: left;
 	width: 458px;
 	line-height: 24px;
+}
+
+.submit.button {
+	margin-top: 20px;
+	border: 1px solid #000;
+	border-radius: 5px;
+	transition: all 0.5s;
+	box-sizing: content-box;
+	border: 2px solid rgba(0, 0, 0, 0);
+}
+
+.submit.button:hover {
+	border: 2px solid black;
 }
 
 .button-order {
