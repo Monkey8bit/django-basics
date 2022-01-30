@@ -1,0 +1,20 @@
+{% extends 'mainapp/base.html' %}
+{% include 'mainapp/includes/inc_menu.html' %}
+{% block content %}
+    <div class="hero-white">
+
+        {% include 'mainapp/includes/inc_menu.html' %}
+
+    </div>
+
+    <div class="cart">
+        <ol class="cart list">You have {{ total }} items in your cart:
+        {% for product in cart %}
+            <li>{{ product }} ({{ product.quantity }}) <a class="delete_item" href="{% url 'cart:remove' product.id %}">Delete item.</a></li>
+        {% endfor %}
+        </ol>
+        <h4 class="total">Total: {{ price }}</h4>
+    </div>
+<div class="clr"></div>
+{% endblock content %}
+

@@ -10,9 +10,15 @@
 		<div class="details">
 			<div class="links clearfix">
 				<ul class="links-menu">
-					<li><a href="#" class="active">all</a></li>
+					<li><a href="{% url 'product:index' %}"
+						{% if request.resolver_match.view_name == 'product:index' %} class="active" 
+						{% endif %}>all</a></li>
 					{% for category in categories%}
-					<li><a href="{% url 'product:index' %}">{{ category.name }}</a></li>
+					<li><a href="{% url 'product:category' category.pk %}" 
+						{% if request.resolver_match.kwargs.pk == category.pk %}
+						class='active'
+						{% endif %}>{{ category.name }}
+					</a></li>
 					{% endfor %}
 				</ul>
 			</div>
@@ -64,35 +70,8 @@
 					<h2>Похожие продукты</h2>
 					<a class="explore" href="#">показать все <img src="{% static 'img/arrow.png' %}" alt=""></a>
 				</div>
-				<div class="related-products clearfix">
-					<div class="block">
-						<a href="#"><img src="{% static 'img/product-11.jpg' %}" alt="">
-							<div class="text">
-								<img src="{% static 'img/icon-hover.png' %}" alt="img">
-								<h4>Стул повышенного качества</h4>
-								<p>Не оторваться. </p>
-							</div>
-						</a>
-					</div>
-					<div class="block">
-						<a href="#"><img src="{% static 'img/product-21.jpg' %}" alt="">
-							<div class="text">
-								<img src="{% static 'img/icon-hover.png' %}" alt="img">
-								<h4>Стул повышенного качества</h4>
-								<p>Не оторваться. </p>
-							</div>
-						</a>
-					</div>
-					<div class="block">
-						<a href="#"><img src="{% static 'img/product-31.jpg' %}" alt="">
-							<div class="text">
-								<img src="{% static 'img/icon-hover.png' %}" alt="img">
-								<h4>Стул повышенного качества</h4>
-								<p>Не оторваться. </p>
-							</div>
-						</a>
-					</div>
-
+				<div class="related products">
+					{% include 'mainapp/includes/inc_related_products.html' %}
 				</div>
 			</div>
 		</div>
@@ -101,7 +80,7 @@
 
 	{% endblock content%}	
 	
-	{% include 'mainapp/includes/inc_footer.html' %}
+	
 
 </body>
 </html>

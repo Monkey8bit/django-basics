@@ -4,7 +4,7 @@
 	padding: 0;
 }
 
-body {
+body, input, textarea, button {
 	font-family: 'Montserrat', sans-serif;
 }
 
@@ -828,8 +828,8 @@ td:first-child {
 }
 .products a .text {
 	display: none;
-	height: 368px;
-	width: 368px;
+	height: 270px;
+	width: 270px;
 	background-color: #ffffff;
     opacity: 0.9;
     position: absolute;
@@ -856,7 +856,10 @@ td:first-child {
 	margin-top: 80px;
 }
 .products a:hover .text{
-	display: block;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .loading {
@@ -1032,6 +1035,29 @@ td:first-child {
 .related {
 	padding: 0px 98px;
 }
+
+.add_button {
+	margin-top: 80px;
+	width: 100px;
+	height: 30px;
+	font-weight: 500;
+	border-radius: 5px;
+	border: 1px solid #000;
+	transition: all 0.5s;
+	background-color: rgba(255, 255, 255, 0.774);
+
+}
+
+.add_button:hover {
+	background-color: rgba(2, 2, 2, 0.226);
+}
+
+.related .products {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
 .related .title {
 	height: 343px;
 	margin-right: 0;
@@ -1090,4 +1116,29 @@ td:first-child {
 }
 .related-products a:hover .text{
 	display: block;
+}
+
+.cart {
+	margin: 50px;
+}
+
+.cart .list {
+	font-weight: 400;
+	
+}
+
+.delete_item {
+	appearance: button;
+	text-decoration: none;
+	border: 1px solid #000;
+	border-radius: 5px;
+	color: grey;
+	padding: 5px;
+	margin: 5px 0;
+	transition:0.5s;
+}
+
+.delete_item:hover {
+	background-color: grey;
+	color: white;
 }
