@@ -10,6 +10,7 @@ from mainapp.views import menu
 
 @login_required
 def cart_view(request):
+    """Main view for browse user's cart."""
     cart = Cart.get_cart(request.user)
     return render(
         request,
@@ -23,6 +24,7 @@ def cart_view(request):
 
 @login_required
 def add_item(request, product_id):
+    """View for adding item in cart."""
     if "login" in request.META.get("HTTP_REFERER"):
         return HttpResponseRedirect(
             reverse("products:product", args=[product_id])
@@ -44,6 +46,7 @@ def add_item(request, product_id):
 
 @login_required
 def remove_item(request, cart_item_id):
+    """View for deleting item from cart."""
     cart_item = get_object_or_404(Cart, pk=cart_item_id)
     cart_item.delete()
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
@@ -51,6 +54,7 @@ def remove_item(request, cart_item_id):
 
 @login_required
 def edit_item(request, cart_item_id, quantity):
+    """View for dynamically reload page with AJAX."""
     if request.is_ajax():
         new_cart_item = Cart.objects.get(pk=cart_item_id)
 

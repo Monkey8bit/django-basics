@@ -17,6 +17,7 @@ menu = [
 
 
 def index(request):
+    """View for main page."""
     product = Product.objects.all()
     return render(
         request,
@@ -30,6 +31,7 @@ def index(request):
 
 
 def product(request):
+    """View for products page."""
     products = Product.objects.all()
     hot_product = Product.random_product(products)
     category = ProductCategory.objects.all()
@@ -47,6 +49,7 @@ def product(request):
 
 
 def product_page(request, pk):
+    """View for specific product."""
     title = "Product page"
     product = get_object_or_404(Product, pk=pk)
     try:
@@ -60,13 +63,14 @@ def product_page(request, pk):
         context={
             "title": title,
             "product": product,
-            "cart": Cart.get_cart(user=request.user),
+            "cart": cart,
             "menu": menu,
         },
     )
 
 
 def category(request, pk):
+    """View for page products, used for display specific category of product"""
     categories = ProductCategory.objects.all()
     category = get_object_or_404(ProductCategory, pk=pk)
     products = Product.objects.filter(category=category)
@@ -88,6 +92,7 @@ def category(request, pk):
 
 
 def contact(request):
+    """View for contacts page."""
     return render(
         request,
         "mainapp/contact.html",
