@@ -1,46 +1,46 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
-	{% block content %}
-		<div class="hero-white">
+{% block content %}
+<div class="hero-white">
+	
+	{% include 'mainapp/includes/inc_menu.html' %}
+	
+</div>
 
-			{% include 'mainapp/includes/inc_menu.html' %}
-
+<div class="details">
+	<div class="links clearfix">
+		<ul class="links-menu">
+			<li><a href="{% url 'product:index' %}"
+				{% if request.resolver_match.view_name == 'product:index' %} class="active" 
+				{% endif %}>all</a></li>
+				{% for category in categories%}
+				<li><a href="{% url 'product:category' category.pk %}" 
+					{% if request.resolver_match.kwargs.pk == category.pk %}
+					class='active'
+					{% endif %}>{{ category.name }}
+				</a></li>
+				{% endfor %}
+			</ul>
 		</div>
-
-		<div class="details">
-			<div class="links clearfix">
-				<ul class="links-menu">
-					<li><a href="{% url 'product:index' %}"
-						{% if request.resolver_match.view_name == 'product:index' %} class="active" 
-						{% endif %}>all</a></li>
-					{% for category in categories%}
-					<li><a href="{% url 'product:category' category.pk %}" 
-						{% if request.resolver_match.kwargs.pk == category.pk %}
-						class='active'
-						{% endif %}>{{ category.name }}
-					</a></li>
-					{% endfor %}
-				</ul>
+		
+		{% include 'mainapp/includes/inc_hot_product.html'%}
+		
+		<div class="related">
+			<div class="title clearfix">
+				<h2>Related products</h2>
+				<a class="explore" href="#">Show all <img src="{% static 'img/arrow.png' %}" alt=""></a>
 			</div>
-
-			{% include 'mainapp/includes/inc_hot_product.html'%}
-
-			<div class="related">
-				<div class="title clearfix">
-					<h2>Related products</h2>
-					<a class="explore" href="#">Show all <img src="{% static 'img/arrow.png' %}" alt=""></a>
-				</div>
-				<div class="related products">
-					{% include 'mainapp/includes/inc_related_products.html' %}
-				</div>
+			<div class="related products">
+				{% include 'mainapp/includes/inc_related_products.html' %}
 			</div>
 		</div>
-
-		<div class="clr"></div>
-
+	</div>
+	
+	<div class="clr"></div>
+	
 	{% endblock content%}	
 	
 	
-
+	
 </body>
 </html>

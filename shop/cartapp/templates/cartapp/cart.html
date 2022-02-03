@@ -2,23 +2,23 @@
 {% load static %}
 
 {% block content %}
-    <div class="hero-white">
+<div class="hero-white">
+    
+    {% include 'mainapp/includes/inc_menu.html' %}
+    
+</div>
 
-        {% include 'mainapp/includes/inc_menu.html' %}
-
-    </div>
-
-    <div class="cart_list">
-        
-        {% include "cartapp/includes/inc_cart.html" %}
-
-    </div>
+<div class="cart_list">
+    
+    {% include "cartapp/includes/inc_cart.html" %}
+    
+</div>
 <div class="clr"></div>
 {% endblock content %}
 
 {% block js %}
 
-    <script src="{% static 'scripts/jquery-3.6.0.js' %}"></script>
-    <script src="{% static 'scripts/cart_scripts.js' %}"></script>
+<script src="{% static 'scripts/jquery-3.6.0.js' %}"></script>
+<script src="{% static 'scripts/cart_scripts.js' %}"></script>
 
 {% endblock js %}

@@ -2,11 +2,11 @@
     {% if user.cart.total_cart_items %}
     You have {{ user.cart.total_cart_items }} items in your cart:
     {% for item in cart %}
-        <li>{{ item }} (Price: {{ item.product.price}}) X
-            <input type="number" name="{{ item.pk }}" min="0" value="{{ item.quantity }}" class="item_quantity">
-            ={{ item.product_price }}
-            <a class="delete_item" href="{% url 'cart:remove' item.id %}">Delete item.</a>
-        </li>
+    <li>{{ item }} (Price: {{ item.product.price}}) X
+        <input type="number" name="{{ item.pk }}" min="0" value="{{ item.quantity }}" class="item_quantity">
+        ={{ item.product_price }}
+        <a class="delete_item" href="{% url 'cart:remove' item.id %}">Delete item.</a>
+    </li>
     {% endfor %}
     <h4 class="total">Total: {{ user.cart.total_price }}</h4>
     {% else %}
