@@ -60,7 +60,7 @@ def product_page(request, pk):
         context={
             "title": title,
             "product": product,
-            "cart": Cart.get_cart(user=request.user),
+            "cart": cart,
             "menu": menu,
         },
     )
