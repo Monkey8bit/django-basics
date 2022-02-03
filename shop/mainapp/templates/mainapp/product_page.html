@@ -3,55 +3,55 @@
 
 {% block content %}
 <div class="hero-white">
-
-    {% include 'mainapp/includes/inc_menu.html' %}
-
+  
+  {% include 'mainapp/includes/inc_menu.html' %}
+  
 </div>
 <div class="details-products">
-    <div class="details-slider">
-      <div class="slider-product">
-        <img src="{{ product.image.url }}" 
-             alt="{{ product.description }}"
-             class="slider_product_main">
-      </div>
-      <div class="slider-control">
-        <div class="block">
-          <a href="#">
-            <img src="{{ product.image.url }}"
-             alt="вариант 1"
-             class="slider_tiny">
-          </a>
-        </div>
-        <div class="block">
-          <a href="#">
-            <img src="{{ product.image.url }}"
-             alt="вариант 2"
-             class="slider_tiny">
-          </a>
-        </div>
-        <div class="block">
-          <a href="#">
-            <img src="{{ product.image.url }}"
-             alt="вариант 3"
-             class="slider_tiny">
-          </a>
-        </div>
-      </div>
+  <div class="details-slider">
+    <div class="slider-product">
+      <img src="{{ product.image.url }}" 
+      alt="{{ product.description }}"
+      class="slider_product_main">
     </div>
-
-    <div class="description">
-      <h3 class="big-bold">{{ product.name }}</h3>
-      <br>
-      <p class="price"> {{ product.price }}</p>
-      <a href="{% url 'cart:add' product.pk %}" class="red-button">
-        Add to cart 
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <div class="description-text">
-        {{ product.description }}
+    <div class="slider-control">
+      <div class="block">
+        <a href="#">
+          <img src="{{ product.image.url }}"
+          alt="вариант 1"
+          class="slider_tiny">
+        </a>
+      </div>
+      <div class="block">
+        <a href="#">
+          <img src="{{ product.image.url }}"
+          alt="вариант 2"
+          class="slider_tiny">
+        </a>
+      </div>
+      <div class="block">
+        <a href="#">
+          <img src="{{ product.image.url }}"
+          alt="вариант 3"
+          class="slider_tiny">
+        </a>
       </div>
     </div>
   </div>
+  
+  <div class="description">
+    <h3 class="big-bold">{{ product.name }}</h3>
+    <br>
+    <p class="price"> {{ product.price }}</p>
+    <a href="{% url 'cart:add' product.pk %}" class="red-button">
+      Add to cart 
+      <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    </a>
+    <div class="description-text">
+      {{ product.description }}
+    </div>
+  </div>
+</div>
 
 </div>
 
