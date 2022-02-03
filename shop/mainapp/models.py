@@ -3,6 +3,8 @@ import random
 
 
 class ProductCategory(models.Model):
+    """Model of category for Product model."""
+
     name = models.CharField(verbose_name="Category name", max_length=100)
     description = models.TextField(
         verbose_name="Category description", blank=True
@@ -16,6 +18,8 @@ class ProductCategory(models.Model):
 
 
 class Product(models.Model):
+    """Model of shop product."""
+
     category = models.ForeignKey(
         ProductCategory, on_delete=models.CASCADE, blank=True
     )
@@ -41,4 +45,5 @@ class Product(models.Model):
 
     @staticmethod
     def random_product(query):
+        """Returns random product from pool."""
         return random.choice(query)
