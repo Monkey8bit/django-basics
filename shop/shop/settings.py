@@ -130,3 +130,4 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 # Auth
 AUTH_USER_MODEL = "authapp.ShopUser"
+LOGIN_URL = "/auth/login"

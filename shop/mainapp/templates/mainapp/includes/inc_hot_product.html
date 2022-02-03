@@ -1,0 +1,37 @@
+{% load static %}
+<div class="details-products">
+    <div class="details-slider">
+        <div class="slider-product">
+            <img src="{{ hot_product.image.url }}" class="slider_product_main">
+        </div>
+        <div class="slider-control">
+            <div class="block">
+                <a href="#"><img src="{% static 'img/controll.jpg' %}" alt="" class="slider_tiny">
+                    <div class="text"></div>
+                </a>
+            </div>
+            <div class="block">
+                <a href="#"><img src="{% static 'img/controll1.jpg' %}" alt="" class="slider_tiny">
+                    <div class="text"></div>
+                </a>
+            </div>
+            <div class="block">
+                <a href="#"><img src="{% static 'img/controll2.jpg' %}" alt="" class="slider_tiny">
+                    <div class="text"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="description">
+        <h3 class="big-bold">{{ hot_product.name }}</h3>
+        <h3 class="red">Hot offer</h3>
+        <p class="price"> {{ hot_product.price }} <span>руб</span></p>
+        <a href="{% url 'cart:add' hot_product.pk %}" class="red-button">
+            Add to cart<i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+        <div class="description-text">
+            {{ hot_product.description|linebreaks }}
+        </div>
+    </div>
+</div>

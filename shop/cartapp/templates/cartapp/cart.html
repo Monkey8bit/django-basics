@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
-{% include 'mainapp/includes/inc_menu.html' %}
+{% load static %}
+
 {% block content %}
     <div class="hero-white">
 
@@ -7,14 +8,17 @@
 
     </div>
 
-    <div class="cart">
-        <ol class="cart list">You have {{ total }} items in your cart:
-        {% for product in cart %}
-            <li>{{ product }} ({{ product.quantity }}) <a class="delete_item" href="{% url 'cart:remove' product.id %}">Delete item.</a></li>
-        {% endfor %}
-        </ol>
-        <h4 class="total">Total: {{ price }}</h4>
+    <div class="cart_list">
+        
+        {% include "cartapp/includes/inc_cart.html" %}
+
     </div>
 <div class="clr"></div>
 {% endblock content %}
 
+{% block js %}
+
+    <script src="{% static 'scripts/jquery-3.6.0.js' %}"></script>
+    <script src="{% static 'scripts/cart_scripts.js' %}"></script>
+
+{% endblock js %}
