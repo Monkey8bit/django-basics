@@ -1,7 +1,7 @@
 {% load static %}
 {% for product in products %}
 				<div class="block">
-				    <a href="{% url 'cart:add' product.id %}">
+				    <a href="{% url 'product:product' product.id %}">
                         {% if product.image %}
                         <img src="{{ product.image.url }}"
                         {% endif %}

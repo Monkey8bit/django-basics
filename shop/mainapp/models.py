@@ -1,4 +1,5 @@
 from django.db import models
+import random
 
 
 class ProductCategory(models.Model):
@@ -37,3 +38,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @staticmethod
+    def random_product(query):
+        return random.choice(query)

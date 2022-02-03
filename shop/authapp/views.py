@@ -5,6 +5,8 @@ from .forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm
 
 
 def login(request):
+    next = request.GET["next"] if "next" in request.GET.keys() else ""
+
     if request.method == "POST":
         login_form = ShopUserLoginForm(data=request.POST)
         if login_form.is_valid():
@@ -16,6 +18,8 @@ def login(request):
             )
             if user and user.is_active:
                 auth.login(request, user)
+                if "next" in request.POST.keys():
+                    return HttpResponseRedirect(request.POST["next"])
                 return HttpResponseRedirect(reverse("index"))
     else:
         login_form = ShopUserLoginForm()
@@ -23,7 +27,11 @@ def login(request):
     return render(
         request,
         "authapp/login.html",
-        context={"title": "Log in", "form": login_form},
+        context={
+            "title": "Log in",
+            "form": login_form,
+            "next": next,
+        },
     )
 
 
