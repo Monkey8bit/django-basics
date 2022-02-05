@@ -9,6 +9,7 @@ from mainapp import views as mainapp
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("adminapp/", include("adminapp.urls", namespace="custom_admin")),
     path("", mainapp.index, name="index"),
     path("contact/", mainapp.contact, name="contact"),
     path("product/", include("mainapp.urls", namespace="product")),
