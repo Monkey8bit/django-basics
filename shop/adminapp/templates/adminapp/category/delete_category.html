@@ -1,0 +1,20 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="admin_delete">
+    Are you sure you want to delete category <b>
+        {{ category_to_delete.name }}? </b>
+    <form action="{% url 'adminapp:delete_category' category_to_delete.pk %}"
+          method="post">
+      {% csrf_token %}
+      <input class="admin_button delete" type="submit" value="Delete">
+    </form>
+    <button class="admin_button cancel">
+      <a href="{% url 'adminapp:categories' %}">
+        Cancel
+      </a>
+    </button>
+  </div>
+{% endblock %}
+
