@@ -1,0 +1,46 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="product_read">
+    <div class="product_name">
+      Продукт<strong>{{ product.category.name|title }} / 
+                     {{ product.name|title }}</strong> 
+    </div>
+    <img src="/media/{{ product.image|default:'images/default.jpg' }}"
+         alt="{{ product.name }}">
+    <div class="summary">
+      <b>Price: </b>
+      <p>{{ product.price }}</p>
+      <b>Quantity: </b>
+      <p>{{ product.quantity }}</p>
+      <b>In stock: </b>
+      <p>{% if product.is_active %}Yes{% else %}No{% endif %}</p>
+      <p>
+        <button>
+          <a href={% url 'adminapp:update_product' product.pk %}>
+            Edit
+          </a>
+        </button>
+      </p>
+      <p>
+        <button>
+          <a href={% url 'adminapp:delete_product' product.pk %}>
+            Delete
+          </a>
+        </button>
+      </p>
+      <p>
+        <button>
+          <a href={% url 'adminapp:products' product.category.pk %}>
+            Back
+          </a>
+        </button>
+      </p>
+    </div>
+    <div class="product_desc">
+      <b>Description: </b>
+      <p>{{ product.description }}</p>
+    </div>
+  </div>
+{% endblock %}

@@ -14,7 +14,7 @@ html, body {
 
 
 .clr {
-	height: 384px;
+	height: 100px;
 }
 
 .container {
@@ -566,12 +566,12 @@ html, body {
 
 .footer {
 	height: 384px;
-	width: 1169px;
+	max-width: 1169px;
 	background-color: #f7f7f7;
 	padding-left: 99px;
 	padding-right: 98px;
-	margin: -384px auto 0;
 	clear: both;
+	margin: 0 auto;
 }
 .footer form {
 	position: relative;
@@ -920,6 +920,8 @@ td:first-child {
 	padding-right: 98px;
 	margin-top: 98px;
 	height: 651px; 
+	display: flex;
+	margin-bottom: 50px;
 }
 .details-slider {
 	width: 570px;
@@ -949,9 +951,10 @@ td:first-child {
 }
 
 .slider_tiny {
-	max-width: 150px;
+	max-width: 100px;
 	height: auto;
 	transition: all 0.5s;
+	margin-bottom: 50px;
 }
 
 .slider_tiny:hover {
@@ -1073,7 +1076,7 @@ td:first-child {
 	background-color: rgba(2, 2, 2, 0.226);
 }
 
-.related .products {
+.related.products {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -1139,6 +1142,10 @@ td:first-child {
 	display: block;
 }
 
+.products_list {
+	margin-top: 100px;
+}
+
 .cart_list {
 	margin: 50px;
 }
@@ -1175,10 +1182,6 @@ td:first-child {
 .admin_list {
 	margin: 100px 50px;
 }
-
-/* .users_list {
-	
-} */
 
 .admin_button {
 	font-weight: bold;
@@ -1228,7 +1231,7 @@ td:first-child {
 	padding: 10px;
 }
 
-.category_record.not_active {
+.not_active {
 	opacity: 0.5;
 }
 

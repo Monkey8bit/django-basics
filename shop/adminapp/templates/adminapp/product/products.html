@@ -4,12 +4,12 @@
 {% block content %}
   <div class="admin_list product_list">
     <button class="admin_button">
-      <a href={% url 'adminapp:create_product' category.pk %}>
+      <a href="{% url 'adminapp:create_product' category.pk %}">
         New product
       </a>
     </button>
 		
-    {% for product in products %}
+    {% for product in object_list %}
       <div class="product_record">
         <img 
           src="/media/{{product.image|default:'images/default.png'}}"
@@ -20,17 +20,17 @@
         </div>
         <div class="product_actions">
           <button class="admin_button">
-            <a href={% url 'adminapp:read_product' product.pk %}>
+            <a href="{% url 'adminapp:read_product' product.pk %}">
               Details
             </a>
           </button>
           <button class="admin_button">
-            <a href={% url 'adminapp:update_product' product.pk %}>
+            <a href="{% url 'adminapp:update_product' product.category.pk %}">
               Edit
             </a>
           </button>
           <button class="admin_button">
-            <a href={% url 'adminapp:delete_product' product.pk %}>
+            <a href="{% url 'adminapp:delete_product' product.pk %}">
               Delete
             </a>
           </button>
