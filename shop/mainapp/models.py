@@ -41,6 +41,8 @@ class Product(models.Model):
         verbose_name="Product quantity", default=0
     )
 
+    is_active = models.BooleanField(verbose_name="Is active", default=True)
+
     def __str__(self):
         return self.name
 

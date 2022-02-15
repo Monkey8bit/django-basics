@@ -8,7 +8,7 @@
             Create new user
         </a>
     </button>
-    {% for user in users %}
+    {% for user in object_list %}
     <div 
     class="user_record {% if not user.is_active %}not_active{% endif %}">
     <img 
@@ -55,8 +55,8 @@
     <div class="user_lastlogin">
         <b>Logged: </b>{{ user.last_login }}
     </div>
+    {% endfor%}
 </div>
-{% endfor%}
 </div>
 {% endblock %}
 

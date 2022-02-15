@@ -1,5 +1,7 @@
+import pdb
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from cartapp.models import Cart
 from .models import Product, ProductCategory
@@ -30,22 +32,59 @@ def index(request):
     )
 
 
-def product(request):
+def product(request, pk=None, page=1):
     """View for products page."""
-    products = Product.objects.all()
+    products = (
+        Product.objects.filter(category__pk=pk)
+        if pk
+        else Product.objects.all()
+    )
     hot_product = Product.random_product(products)
-    category = ProductCategory.objects.all()
-    return render(
-        request,
-        "mainapp/products.html",
-        context={
+    categories = ProductCategory.objects.all()
+
+    if pk is not None:
+        if pk == 0:
+            category = {
+                "pk": 0,
+                "name": "all",
+            }
+            products = Product.objects.filter(is_active=True)
+        else:
+            category = get_object_or_404(ProductCategory, pk=pk)
+            products = Product.objects.filter(category__pk=pk, is_active=True)
+
+    paginator = Paginator(products, 4)
+    try:
+        products_paginator = paginator.page(page)
+    except PageNotAnInteger:
+        products_paginator = paginator.page(1)
+    except EmptyPage:
+        products_paginator = paginator.page(paginator.num_pages)
+
+    try:
+        content = {
             "title": "Products",
             "menu": menu,
-            "products": products,
-            "categories": category,
+            "products": products_paginator,
+            "categories": categories,
+            "category": category,
             "hot_product": hot_product,
-        },
-    )
+        }
+
+    except UnboundLocalError:
+        content = {
+            "title": "Products",
+            "menu": menu,
+            "products": products_paginator,
+            "categories": categories,
+            "category": {
+                "pk": 0,
+                "name": "all",
+            },
+            "hot_product": hot_product,
+        }
+
+    return render(request, "mainapp/products.html", context=content)
 
 
 def product_page(request, pk):

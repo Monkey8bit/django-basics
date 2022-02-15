@@ -21,26 +21,46 @@
 				</a></li>
 				{% endfor %}
 			</ul>
-		</div>
+	</div>
 		
-		{% include 'mainapp/includes/inc_hot_product.html'%}
-		
-		<div class="related">
-			<div class="title clearfix">
-				<h2>Related products</h2>
-				<a class="explore" href="#">Show all <img src="{% static 'img/arrow.png' %}" alt=""></a>
-			</div>
-			<div class="related products">
-				{% include 'mainapp/includes/inc_related_products.html' %}
+	{% include 'mainapp/includes/inc_hot_product.html'%}
+	
+	<div class="products_list">
+		<div class="clearfix">
+			<h2>Category: {{ category.name }}</h2>
+			<div class="paginator">
+				{% if products.has_previous %}
+					<a href="{% url 'product:page' category.pk products.previous_page_number %}">
+					&larr;
+					</a>
+				{% endif %}
+				<span class="current">
+					Page {{ products.number }} of 
+					{{ products.paginator.num_pages }}
+				</span>
+				{% if products.has_next %}
+					<a href="{% url 'product:page' category.pk products.next_page_number %}">
+					&rarr;
+					</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
+	<div class="related">
+		<div class="title clearfix">
+			<h2>Related products</h2>
+			<a class="explore" href="#">Show all <img src="{% static 'img/arrow.png' %}" alt=""></a>
+		</div>
+		<div class="related products">
+			{% include 'mainapp/includes/inc_related_products.html' %}
+		</div>
+	</div>
+</div>
 	
-	<div class="clr"></div>
 	
-	{% endblock content%}	
+<div class="clr"></div>
 	
-	
+{% endblock content%}	
 	
 </body>
 </html>

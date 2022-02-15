@@ -1,4 +1,4 @@
-{% extends 'authapp/base.html' %}
+{% extends 'adminapp/base.html' %}
 {% load static %}
 
 {% block content %}
@@ -8,8 +8,8 @@
     <input class="form-control" type="submit" value="Save">
   </form>
   <button class="btn btn-round form-control last">
-    <a href="{% url 'adminapp:users' %}">
-      To users list
+    <a href="{% url 'adminapp:products' category.pk %}">
+      To products list
     </a>
   </button>
 {% endblock %}
