@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 
 from mainapp.models import Product
 from .models import Cart
-from mainapp.views import menu
 
 
 @login_required
@@ -17,7 +16,6 @@ def cart_view(request):
         "cartapp/cart.html",
         context={
             "cart": cart,
-            "menu": menu,
         },
     )
 
@@ -26,9 +24,7 @@ def cart_view(request):
 def add_item(request, product_id):
     """View for adding item in cart."""
     if "login" in request.META.get("HTTP_REFERER"):
-        return HttpResponseRedirect(
-            reverse("products:product", args=[product_id])
-        )
+        return HttpResponseRedirect(reverse("products:product", args=[product_id]))
 
     product = get_object_or_404(Product, pk=product_id)
     cart_item = Cart.objects.filter(user=request.user, product=product)
