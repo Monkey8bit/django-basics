@@ -9,51 +9,51 @@
         </a>
     </button>
     {% for user in object_list %}
-    <div 
-    class="user_record {% if not user.is_active %}not_active{% endif %}">
-    <img 
-    src="/media/{{ user.image|default:'users/default.png' }}"
-    alt="{{ user.username }}" class="admin_user_img">
-    <div class="user_role">
-        {% if user.is_superuser %}
-        Admin
-        {% else %}
-        Common user
-        {% endif %}
-        <button class="admin_button">
-            <a href={% url 'adminapp:update_user' user.pk %}>
-                Edit
-            </a>
-        </button>
-        <button class="admin_button">
-            <a href={% url 'adminapp:delete_user' user.pk %}>
-                Delete
-            </a>
-        </button>
-    </div>
-    <div class="user_name">
-        <p><b>Login:</b> {{ user.username }}</p>
-        {% if user.first_name %}
-        <p><b>First name:</b> {{ user.first_name|title }}</p>
-        {% endif %}
-        {% if user.last_name %}
-        <p><b>Last name: </b>{{ user.last_name|title }}</p>
-        {% endif %}
-    </div>
-    <div class="user_age">
-        <b>Age: </b>{{ user.age }}
-    </div>
-    <div class="user_email">
-        <b>Email: </b>{{ user.email }}
-    </div>
-    <div class="user_city">
-        <b>City: </b>{{ user.city }}
-    </div>
-    <div class="user_phone">
-        <b>Phone: </b>{{ user.phone }}
-    </div>
-    <div class="user_lastlogin">
-        <b>Logged: </b>{{ user.last_login }}
+    <div class="user_record {% if not user.is_active %}not_active{% endif %}">
+        <img 
+        src="/media/{{ user.image|default:'users/default.png' }}"
+        alt="{{ user.username }}" class="admin_user_img">
+        <div class="user_role">
+            {% if user.is_superuser %}
+            Admin
+            {% else %}
+            Common user
+            {% endif %}
+            <button class="admin_button">
+                <a href={% url 'adminapp:update_user' user.pk %}>
+                    Edit
+                </a>
+            </button>
+            <button class="admin_button">
+                <a href={% url 'adminapp:delete_user' user.pk %}>
+                    Delete
+                </a>
+            </button>
+        </div>
+        <div class="user_name">
+            <p><b>Login:</b> {{ user.username }}</p>
+            {% if user.first_name %}
+            <p><b>First name:</b> {{ user.first_name|title }}</p>
+            {% endif %}
+            {% if user.last_name %}
+            <p><b>Last name: </b>{{ user.last_name|title }}</p>
+            {% endif %}
+        </div>
+        <div class="user_age">
+            <b>Age: </b>{{ user.age }}
+        </div>
+        <div class="user_email">
+            <b>Email: </b>{{ user.email }}
+        </div>
+        <div class="user_city">
+            <b>City: </b>{{ user.city }}
+        </div>
+        <div class="user_phone">
+            <b>Phone: </b>{{ user.phone }}
+        </div>
+        <div class="user_lastlogin">
+            <b>Logged: </b>{{ user.last_login }}
+        </div>
     </div>
     {% endfor%}
 </div>

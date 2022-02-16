@@ -7,17 +7,6 @@ from cartapp.models import Cart
 from .models import Product, ProductCategory
 
 
-menu = [
-    {"name": "home", "link": "index", "active": ["index"]},
-    {
-        "name": "product",
-        "link": "product:index",
-        "active": ["product:category", "product:index"],
-    },
-    {"name": "contacts", "link": "contact", "active": ["contact"]},
-]
-
-
 def index(request):
     """View for main page."""
     product = Product.objects.all()
@@ -26,7 +15,6 @@ def index(request):
         "mainapp/index.html",
         context={
             "title": "Main",
-            "menu": menu,
             "products": product,
         },
     )
@@ -34,11 +22,7 @@ def index(request):
 
 def product(request, pk=None, page=1):
     """View for products page."""
-    products = (
-        Product.objects.filter(category__pk=pk)
-        if pk
-        else Product.objects.all()
-    )
+    products = Product.objects.filter(category__pk=pk) if pk else Product.objects.all()
     hot_product = Product.random_product(products)
     categories = ProductCategory.objects.all()
 
@@ -64,7 +48,6 @@ def product(request, pk=None, page=1):
     try:
         content = {
             "title": "Products",
-            "menu": menu,
             "products": products_paginator,
             "categories": categories,
             "category": category,
@@ -74,7 +57,6 @@ def product(request, pk=None, page=1):
     except UnboundLocalError:
         content = {
             "title": "Products",
-            "menu": menu,
             "products": products_paginator,
             "categories": categories,
             "category": {
@@ -103,7 +85,6 @@ def product_page(request, pk):
             "title": title,
             "product": product,
             "cart": cart,
-            "menu": menu,
         },
     )
 
@@ -113,16 +94,13 @@ def category(request, pk):
     categories = ProductCategory.objects.all()
     category = get_object_or_404(ProductCategory, pk=pk)
     products = Product.objects.filter(category=category)
-    hot_product = Product.random_product(
-        Product.objects.filter(category=category)
-    )
+    hot_product = Product.random_product(Product.objects.filter(category=category))
 
     return render(
         request,
         "mainapp/products.html",
         context={
             "title": "Products",
-            "menu": menu,
             "products": products,
             "categories": categories,
             "hot_product": hot_product,
@@ -135,5 +113,7 @@ def contact(request):
     return render(
         request,
         "mainapp/contact.html",
-        context={"title": "Contacts", "menu": menu},
+        context={
+            "title": "Contacts",
+        },
     )
