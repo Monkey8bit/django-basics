@@ -5,9 +5,22 @@
 <form method='POST' url="{% url 'auth:login' %}">
     {% csrf_token %}
     {% if next %}
-    <input type="hidden" name="next" value="{{ next }}"
+    <input type="hidden" name="next" value="{{ next }}">
     {% endif %}
     {{ form }}
     <input type='submit' value='Log in' class='submit button'>
+    <div class="social_auth_block">
+        <img src="{% static 'img/github_social.png' %}" class="social_image">
+        <a href="{% url 'social:begin' 'github' %}?next=/" class='submit button social_button'>
+            Sign in with GitHub.
+        </a>
+    </div>
+    <div class="social_auth_block">
+        <img src="{% static 'img/vk_social.png' %}" class="social_image">
+        <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/" class='submit button social_button'>
+            Sign in with VK.
+        </a>
+    </div>
+    
 </form>
 {% endblock content %}

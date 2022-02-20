@@ -2,7 +2,14 @@ import pdb
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import auth
-from .forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm
+from .forms import (
+    ShopUserLoginForm,
+    ShopUserRegisterForm,
+    ShopUserEditForm,
+    ShopUserProfileEditForm,
+)
+from django.db import transaction
+
 from .utils import send_verify
 from .models import ShopUser
 
@@ -61,14 +68,18 @@ def logout(request):
     return HttpResponseRedirect(reverse("index"))
 
 
+@transaction.atomic
 def edit(request):
     if request.method == "POST":
         edit_form = ShopUserEditForm(request.POST, request.FILES, instance=request.user)
-        if edit_form.is_valid():
+        profile_form = ShopUserProfileEditForm(request.POST, instance=request.user.profile)
+        if edit_form.is_valid() and profile_form.is_valid():
+            profile_form.save()
             edit_form.save()
             return HttpResponseRedirect(reverse("index"))
     else:
         edit_form = ShopUserEditForm(instance=request.user)
+        profile_form = ShopUserProfileEditForm(instance=request.user.profile)
 
     return render(
         request,
@@ -76,11 +87,12 @@ def edit(request):
         context={
             "title": "Profile edit",
             "form": edit_form,
+            "profile_form": profile_form,
         },
     )
 
 
-def verify(request, email, activation_key):
+def verify(request, email, activation_key, backend='django.contrib.auth.backends.ModelBackend'):
     user = get_object_or_404(ShopUser, email=email)
     if user.activation_key == activation_key:
         pdb.set_trace()
