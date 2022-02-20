@@ -8,6 +8,7 @@
 <form method='POST' url="{% url 'auth:edit' %}" enctype='multipart/form-data'>
     {% csrf_token %}
     {{ form }}
+    {{ profile_form }}
     <input type='submit' value='Save changes' class='submit button'>
 </form>
 {% endblock content %}

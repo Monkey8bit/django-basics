@@ -11,6 +11,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("django_shop_secret")
+SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("github_shop_secret")
+SOCIAL_AUTH_GITHUB_KEY = os.environ.get("github_shop_client")
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("vk_shop_id")
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("vk_shop_secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -27,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "social_django",
     "mainapp",
     "authapp",
     "cartapp",
@@ -56,6 +61,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
                 "mainapp.context_processors.menu",
             ],
         },
@@ -130,8 +137,28 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Auth
 AUTH_USER_MODEL = "authapp.ShopUser"
 LOGIN_URL = "/auth/login"
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "social_core.backends.github.GithubOAuth2",
+    "social_core.backends.vk.VKOAuth2",
+)
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "indexs"
+
+# SOCIAL_AUTH_PIPELINE = (
+#     "social_core.pipeline.social_auth.social_details",
+#     "social_core.pipeline.social_auth.social_uid",
+#     "social_core.pipeline.social_auth.auth_allowed",
+#     "social_core.pipeline.social_auth.social_user",
+#     "social_core.pipeline.user.create_user",
+#     "authapp.pipeline.save_user_profile",
+#     "social_core.pipeline.social_auth.associate_user",
+#     "social_core.pipeline.social_auth.load_extra_data",
+#     "social_core.pipeline.user.user_details",
+# )
 
 DOMAIN_NAME = "localhost"
 
+# Email
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = "tmp/email-messages/"
