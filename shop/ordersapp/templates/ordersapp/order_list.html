@@ -1,0 +1,66 @@
+{% extends 'ordersapp/base.html' %}
+{% load static %}
+
+
+{% block content %}
+   <div class="h2 text-center head">
+       Your orders, 
+       {% if user.username %}
+           {{ user.username}}
+       {% else %}
+           User
+       {% endif %}
+   </div>
+   <table class="table orders_list">
+       <thead>
+         <tr>
+           <th class="order_attr">ID</th>
+           <th class="order_attr">Created</th>
+           <th class="order_attr">Edited</th>
+           <th class="order_attr">Status</th>
+         </tr>
+       </thead>
+       <tbody>
+        {% for item in object_list %}
+            {% if item.is_active %}
+            <tr>
+                <td class="td1 orders_list">{{ item.pk }}</td>
+                <td>{{ item.created|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ item.updated|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ item.get_status_display }}</td>
+                <td>
+                    <a href="{% url 'ordersapp:order_read' item.pk %}">
+                        Details
+                    </a>
+                </td>
+                <td>
+                    {% if item.status == 'CREATED' %}
+                      <a href="{% url 'ordersapp:order_update' item.pk %}">
+                        Edit
+                      </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.status == 'CREATED' %}
+                      <a href="{% url 'ordersapp:order_delete' item.pk %}">
+                          Delete
+                      </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+<button class="admin_button">
+    <a href="{% url 'index' %}">
+        Main
+    </a>
+</button>
+<button class="admin_button">
+    <a href="{% url 'ordersapp:order_create' %}">
+        New
+    </a>
+</button>
+{% endblock %}
+

@@ -4,7 +4,7 @@
 	padding: 0;
 }
 
-body, input, textarea, button {
+body, input, textarea, button, p {
 	font-family: 'Montserrat', sans-serif;
 }
 
@@ -58,6 +58,17 @@ html, body {
 	padding: 10px 13px;
 	transition: color 0.9s
 }
+
+.menu p {
+	color: #8c8c8c;
+	font-size: 14px;
+	font-weight: 700;
+	text-align: right;
+	text-transform: uppercase;
+	text-decoration: none;
+	transition: color 0.9s
+}
+
 .menu .active {
 	color: #212121;
 	font-weight: 700;
@@ -65,11 +76,15 @@ html, body {
 }
 .menu a:hover {
 	color: #212121;
-	font-weight: 700;
 }
 .menu a:active {
 	color: #8c8c8c;
 	font-weight: 700;
+}
+
+#dropdown {
+	cursor: pointer;
+	margin-bottom: 0;
 }
 
 .search {
@@ -1270,5 +1285,20 @@ td:first-child {
 
 .social_button:hover {
 	color: black;
+}
+
+.order_container {
+	width: 80%;
+	margin: 20px auto;
+	padding: 50px;
+}
+
+.orders_list {
+	width: 100%;
+	background-color: lightgray;
+}
+
+.order_attr {
+	width: 25%;
 }
 

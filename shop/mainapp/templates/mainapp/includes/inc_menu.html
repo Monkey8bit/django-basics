@@ -13,9 +13,24 @@
     
         {% if user.is_authenticated %}
         <li>
-            <a href="{% url 'auth:edit' %}">
-                {{ user.username }}
-            </a>
+            <div class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" id="dropdown">
+                    {{ user.username | default:'User' }}
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url 'auth:edit' %}">
+                            Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'ordersapp:orders_list' %}">
+                            Orders
+                        </a>
+                    </li>
+                </ul>
+            </div>     
         </li>
         {% endif %}
         <li>
@@ -30,9 +45,11 @@
             <a href="{% url 'adminapp:users' %}">Admin page</a>
             {% endif %}
         </li>
+        <li>
+            {% if user.is_authenticated %}
+            <a href="{% url 'cart:cart' %}" class="basket"></a>
+            {% endif %}
+        </li>
     </ul>
-    <a href="#" class="search"></a>
-    {% if user.is_authenticated %}
-    <a href="{% url 'cart:cart' %}" class="basket"></a>
-    {% endif %}
+    
 </div>

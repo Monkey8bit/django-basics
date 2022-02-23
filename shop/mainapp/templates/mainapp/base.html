@@ -9,6 +9,8 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
 	{% block js %}
+	<script src="{% static 'scripts/bootstrap.min.js' %}"></script>
+	<script src="{% static 'scripts/jquery-3.6.0.js' %}"></script>
 	{% endblock js %}
 </head>
 <body>
@@ -20,6 +22,21 @@
 	</div>
 	
 	{% include  "mainapp/includes/inc_footer.html" %}
+	<script type="text/javascript">
+		var dropdown = document.getElementById("dropdown");
+		var dropdown_menu = dropdown.nextElementSibling;
+		dropdown.addEventListener("mouseover", function() {
+			dropdown_menu.style.display = "block";
+		})
+		dropdown.addEventListener("mouseout", function() {
+			if (!dropdown_menu.matches(":hover")) {
+				dropdown_menu.style.display = "none";
+			}
+		})
+		dropdown_menu.addEventListener("mouseleave", function (event) {
+			event.target.style.display = "none";
+		})
+	</script>
 	
 </body>
 </html>
