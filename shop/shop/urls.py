@@ -14,6 +14,7 @@ urlpatterns = [
     path("product/", include("mainapp.urls", namespace="product")),
     path("auth/", include("authapp.urls", namespace="auth")),
     path("cart/", include("cartapp.urls", namespace="cart")),
+    path("orders/", include("ordersapp.urls", namespace="orders")),
 ]
 
 if settings.DEBUG:
