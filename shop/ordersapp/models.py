@@ -1,4 +1,6 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import pre_save, pre_delete
 from django.conf import settings
 from cartapp.models import Cart, Product
 
@@ -21,7 +23,7 @@ class Order(models.Model):
     ORDER_STATUS_CHOICES = (
         (CREATED, "Created"),
         (IN_PROCESS, "In process"),
-        (PAYMENT_AWAITING, "Paymen awaiting"),
+        (PAYMENT_AWAITING, "Payment awaiting"),
         (PAID, "Paid"),
         (READY, "Ready"),
         (CANCELLED, "Cancelled"),
@@ -54,7 +56,7 @@ class Order(models.Model):
 
         self.is_active = False
         self.save()
-        
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
@@ -64,3 +66,20 @@ class OrderItem(models.Model):
     @property
     def cost(self):
         return self.product.price * self.quantity
+
+
+@receiver(pre_save, sender=OrderItem)
+def save_item(sender, update_fields, instance: OrderItem, created, **kwargs):
+    if ["quantity", "product"] in update_fields:
+        if instance.pk:
+            old_item = OrderItem.objects.get(pk=instance.pk)
+            instance.product.quantity -= instance.quantity - old_item.quantity
+        else:
+            instance.product.quantity -= instance.quantity
+        
+        instance.product.save()
+
+@receiver(pre_delete, sender=OrderItem)
+def delete_item(sendef, instance: OrderItem, **kwargs):
+    instance.product.quantity += instance.quantity
+    instance.product.save()

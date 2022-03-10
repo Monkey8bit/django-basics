@@ -36,6 +36,21 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.product.name}"
 
+    def save(self, *args, **kwargs):
+        if self.pk:
+            old_cart = Cart.objects.get(pk=self.pk)
+            self.product.quantity -= (self.quantity -  old_cart.quantity)
+        else:
+            self.product.quantity -= self.quantity
+        self.product.save()
+
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.product.quantity += self.quantity
+        self.product.save()
+        super().delete(*args, **kwargs)
+
     @property
     def product_price(self):
         """Returns total price of product depending of quantity."""

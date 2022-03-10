@@ -37,7 +37,7 @@ class OrderEditMixin:
                     for num, form in enumerate(formset.forms):
                         form.initial["product"] = cart_items[num].product
                         form.initial["quantity"] = cart_items[num].quantity
-                    cart_items.delete()
+                    
 
         return formset
 
