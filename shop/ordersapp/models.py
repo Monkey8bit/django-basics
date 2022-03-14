@@ -76,8 +76,9 @@ def save_item(sender, update_fields, instance: OrderItem, **kwargs):
         instance.product.quantity -= instance.quantity - old_item.quantity
     else:
         instance.product.quantity -= instance.quantity
-    
+
     instance.product.save()
+
 
 @receiver(pre_delete, sender=OrderItem)
 def delete_item(sender, instance: OrderItem, **kwargs):
