@@ -1,3 +1,4 @@
+import pdb
 from mainapp.models import Product, ProductCategory
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth.decorators import user_passes_test
@@ -65,6 +66,9 @@ class ProductUpdateView(UpdateView):
     model = Product
     fields = "__all__"
     template_name = "adminapp/product/update_product.html"
+
+    def get_success_url(self):
+        return reverse_lazy("adminapp:products", args=[self.object.category.pk])
 
 
 @user_passes_test(lambda u: u.is_superuser)

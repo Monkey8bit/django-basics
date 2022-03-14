@@ -1,3 +1,4 @@
+import pdb
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, pre_delete
@@ -52,7 +53,7 @@ class Order(models.Model):
 
     def delete(self):
         for item in self.items.select_related("product"):
-            Cart.objects.create(user=self.user, product=item.product, quantity=item.quantity)
+            item.delete()
 
         self.is_active = False
         self.save()
@@ -69,17 +70,16 @@ class OrderItem(models.Model):
 
 
 @receiver(pre_save, sender=OrderItem)
-def save_item(sender, update_fields, instance: OrderItem, created, **kwargs):
-    if ["quantity", "product"] in update_fields:
-        if instance.pk:
-            old_item = OrderItem.objects.get(pk=instance.pk)
-            instance.product.quantity -= instance.quantity - old_item.quantity
-        else:
-            instance.product.quantity -= instance.quantity
-        
-        instance.product.save()
+def save_item(sender, update_fields, instance: OrderItem, **kwargs):
+    if instance.pk:
+        old_item = OrderItem.objects.get(pk=instance.pk)
+        instance.product.quantity -= instance.quantity - old_item.quantity
+    else:
+        instance.product.quantity -= instance.quantity
+    
+    instance.product.save()
 
 @receiver(pre_delete, sender=OrderItem)
-def delete_item(sendef, instance: OrderItem, **kwargs):
+def delete_item(sender, instance: OrderItem, **kwargs):
     instance.product.quantity += instance.quantity
     instance.product.save()

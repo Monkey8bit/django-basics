@@ -3,6 +3,17 @@ from django.conf import settings
 from mainapp.models import Product
 
 
+class CartQuerySet(models.query.QuerySet):
+
+    def delete(self, *args, **kwargs):
+        item: Cart
+        for item in self:
+            item.product.quantity += item.quantity
+            item.product.save()
+
+        super().delete(*args, **kwargs)
+
+
 class CartManager(models.Manager):
     """Manager for products in cart of specific user"""
 
@@ -14,6 +25,9 @@ class CartManager(models.Manager):
         """Returns total count of products in user cart."""
         cart_items = self.all()
         return sum(item.quantity for item in cart_items)
+
+    def get_queryset(self):
+        return CartQuerySet(self.model, using=self._db)
 
 
 class Cart(models.Model):
@@ -39,7 +53,7 @@ class Cart(models.Model):
     def save(self, *args, **kwargs):
         if self.pk:
             old_cart = Cart.objects.get(pk=self.pk)
-            self.product.quantity -= (self.quantity -  old_cart.quantity)
+            self.product.quantity -= (self.quantity - old_cart.quantity)
         else:
             self.product.quantity -= self.quantity
         self.product.save()
