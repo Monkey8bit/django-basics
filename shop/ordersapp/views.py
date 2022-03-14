@@ -37,8 +37,16 @@ class OrderEditMixin:
                     for num, form in enumerate(formset.forms):
                         form.initial["product"] = cart_items[num].product
                         form.initial["quantity"] = cart_items[num].quantity
+                        form.initial["price"] = cart_items[num].price
                     cart_items.delete()
+            
+        self.add_price_to_formset_forms(formset)
+        return formset
 
+    def add_price_to_formset_forms(self, formset):
+        for form in formset.forms:
+            if form.instance.pk:
+                form.initial["price"] = form.instance.product.price
         return formset
 
     def save_formset(self, form, formset):

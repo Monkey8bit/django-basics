@@ -14,16 +14,18 @@
        <link rel="stylesheet" href="{% static 'fonts/font-awesome/css/font-awesome.css' %}">
    {% endblock %}
    {% block js %}
-       <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
-       <script src="{% static 'js/orders_scripts.js' %}"></script>
-   {% endblock %}
-</head>
-<body>
-  <div class="order_container">
-       {% block content %}
-
+       <script src="{% static 'scripts/jquery-3.6.0.js' %}"></script>
        {% endblock %}
-      
-  </div>
+    </head>
+    <body>
+        <div class="order_container">
+            {% block content %}
+            
+            {% endblock %}
+            
+        </div>
+        
+    {% block extra_js %}
+    {% endblock extra_js %}
 </body>
 </html>

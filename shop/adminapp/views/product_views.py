@@ -54,7 +54,6 @@ class ProductListView(ListView):
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
-        # pdb.set_trace()
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -68,6 +67,9 @@ class ProductUpdateView(UpdateView):
     fields = "__all__"
     template_name = "adminapp/product/update_product.html"
 
+    def get_success_url(self):
+        return reverse_lazy("adminapp:products", args=[self.object.category.pk])
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def create_product(request, pk):
@@ -77,7 +79,7 @@ def create_product(request, pk):
         product_form = ProductEditForm(request.POST, request.FILES)
         if product_form.is_valid():
             product_form.save()
-            return HttpResponseRedirect(reverse("adminapp:products", args=[pk]))
+            return HttpResponseRedirect(reverse_lazy("adminapp:products", args=[pk]))
     else:
         product_form = ProductEditForm(initial={"category": category})
 
@@ -115,7 +117,7 @@ def update_product(request, pk):
 
         if edit_form.is_valid():
             edit_form.save()
-            return HttpResponseRedirect(reverse("adminapp:update_product", args=[edit_product.pk]))
+            return HttpResponseRedirect(reverse_lazy("adminapp:update_product", args=[edit_product.pk]))
 
     else:
         edit_form = ProductEditForm(instance=edit_product)
@@ -137,7 +139,7 @@ def delete_product(request, pk):
     if request.method == "POST":
         product.is_active = False
         product.save()
-        return HttpResponseRedirect(reverse("adminapp:products", args=[product.category.pk]))
+        return HttpResponseRedirect(reverse_lazy("adminapp:products", args=[product.category.pk]))
 
     return render(
         request,
