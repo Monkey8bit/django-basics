@@ -18,6 +18,12 @@ class ProductCategory(models.Model):
         return self.name
 
 
+class ProductManager(models.Manager):
+    @property
+    def active_items(self):
+        return Product.objects.filter(is_active=True)
+
+
 class Product(models.Model):
     """Model of shop product."""
 
@@ -42,6 +48,8 @@ class Product(models.Model):
     )
 
     is_active = models.BooleanField(verbose_name="Is active", default=True)
+
+    objects = ProductManager()
 
     def __str__(self):
         return self.name

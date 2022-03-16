@@ -6,12 +6,17 @@ from django.views.generic import (
     ListView,
 )
 from django.forms import inlineformset_factory
-from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
+from django.http.response import (
+    HttpResponseBadRequest,
+    HttpResponseRedirect,
+    JsonResponse
+)
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.urls import reverse_lazy, reverse
 
 from cartapp.models import Cart
+from mainapp.models import Product
 from .models import Order, OrderItem
 from .forms import OrderForm, OrderItemForm
 
@@ -125,3 +130,10 @@ def order_forming_complete(request, pk):
     order.status = Order.IN_PROCESS
     order.save()
     return HttpResponseRedirect(reverse("ordersapp:orders_list"))
+
+
+def product_price(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return JsonResponse({
+        "price": product.price
+    })
