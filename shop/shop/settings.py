@@ -15,11 +15,12 @@ SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("github_shop_secret")
 SOCIAL_AUTH_GITHUB_KEY = os.environ.get("github_shop_client")
 SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("vk_shop_id")
 SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("vk_shop_secret")
+DJANGO_PRODUCTION = bool(os.environ.get("django_shop_prod", False))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not DJANGO_PRODUCTION
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"] if DJANGO_PRODUCTION else []
 
 
 # Application definition
@@ -76,11 +77,38 @@ WSGI_APPLICATION = "shop.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+
+if DJANGO_PRODUCTION:
+    DJANGO_DB_NAME = os.environ.get("django_db_name")
+    DJANGO_DB_USER = os.environ.get("django_db_user")
+    DJANGO_DB_PASSWORD = os.environ.get("django_db_password")
+    DJANGO_DB_HOST = os.environ.get("django_db_host")
+    DJANGO_DB_PORT = int(os.environ.get("django_db_port"))
+
+    # assert all([
+    #     DJANGO_DB_NAME,
+    #     DJANGO_DB_USER,
+    #     DJANGO_DB_PASSWORD,
+    #     DJANGO_DB_HOST,
+    #     DJANGO_DB_PORT
+    # ])
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgesql_psycopg2",
+            "NAME": DJANGO_DB_NAME,
+            "USER": DJANGO_DB_USER,
+            "PASSWORD": DJANGO_DB_PASSWORD,
+            "HOST": DJANGO_DB_HOST,
+            "PORT": DJANGO_DB_PORT,
+        }
     }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
 }
 
 
