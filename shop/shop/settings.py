@@ -18,9 +18,13 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("vk_shop_secret")
 DJANGO_PRODUCTION = bool(os.environ.get("django_shop_prod", False))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not DJANGO_PRODUCTION
+DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1"] if DJANGO_PRODUCTION else []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "185.46.11.155"]
+
+INTERNAL_IPS = [
+    "127.0.0.1"
+]
 
 
 # Application definition
@@ -32,6 +36,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "debug_toolbar",
+    "template_profiler_panel",
     "social_django",
     "mainapp",
     "authapp",
@@ -40,7 +46,34 @@ INSTALLED_APPS = [
     "ordersapp",
 ]
 
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.history.HistoryPanel',
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+    'debug_toolbar.panels.profiling.ProfilingPanel',
+]
+
+
+def show_toolbar(request):
+    return bool(request.GET.get("debug"))
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
+}
+
+
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -95,12 +128,15 @@ if DJANGO_PRODUCTION:
 
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgesql_psycopg2",
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
             "NAME": DJANGO_DB_NAME,
             "USER": DJANGO_DB_USER,
             "PASSWORD": DJANGO_DB_PASSWORD,
             "HOST": DJANGO_DB_HOST,
             "PORT": DJANGO_DB_PORT,
+            "OPTIONS": {
+                'client_encoding': 'LATIN1',
+            }
         }
     }
 else:
@@ -153,6 +189,8 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
