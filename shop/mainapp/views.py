@@ -1,15 +1,44 @@
-import pdb
+from django.conf import settings
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+
+from functools import lru_cache
 
 from cartapp.models import Cart
 from .models import Product, ProductCategory
 
 
+@lru_cache
+def get_product(category="all"):
+    if category == "all":
+        return Product.objects.all()[:4]
+    return Product.objects.filter(category_id=category)
+
+
+def get_category(pk=None):
+    if settings.LOW_CACHE:
+        if pk:
+            KEY = f"category_{pk}"
+            category = cache.get(KEY)
+            if not category:
+                category = ProductCategory.objects.filter(pk=pk)
+                cache.set(KEY, category)
+            return category
+        KEY = "all_categories"
+        categories = cache.get(KEY)
+        if not categories:
+            categories = ProductCategory.objects.all()
+            cache.set(KEY, categories)
+        return categories
+    return ProductCategory.objects.filter(pk=pk) if pk else \
+            ProductCategory.objects.all()
+
 def index(request):
     """View for main page."""
-    product = Product.objects.all()
+    product = get_product()
     return render(
         request,
         "mainapp/index.html",
@@ -22,9 +51,9 @@ def index(request):
 
 def product(request, pk=None, page=1):
     """View for products page."""
-    products = Product.objects.filter(category__pk=pk) if pk else Product.objects.all()
+    products = get_product(pk) if pk else Product.objects.all()
     hot_product = Product.random_product(products)
-    categories = ProductCategory.objects.all()
+    categories = get_category()
 
     if pk is not None:
         if pk == 0:
@@ -34,7 +63,7 @@ def product(request, pk=None, page=1):
             }
             products = Product.objects.filter(is_active=True)
         else:
-            category = get_object_or_404(ProductCategory, pk=pk)
+            category = get_category(pk=pk)
             products = Product.objects.filter(category__pk=pk, is_active=True)
 
     paginator = Paginator(products, 4)
@@ -91,8 +120,8 @@ def product_page(request, pk):
 
 def category(request, pk):
     """View for page products, used for display specific category of product"""
-    categories = ProductCategory.objects.all()
-    category = get_object_or_404(ProductCategory, pk=pk)
+    categories = get_category()
+    category = get_category(pk=pk)
     products = Product.objects.filter(category=category)
     hot_product = Product.random_product(Product.objects.filter(category=category))
 

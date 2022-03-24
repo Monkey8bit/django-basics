@@ -1,3 +1,4 @@
+from functools import lru_cache
 from django.db import models
 from django.conf import settings
 from mainapp.models import Product
@@ -17,10 +18,12 @@ class CartQuerySet(models.query.QuerySet):
 class CartManager(models.Manager):
     """Manager for products in cart of specific user"""
 
+    @lru_cache
     def total_price(self):
         """Returns total price of user cart."""
         return sum(item.product.price * item.quantity for item in self.all())
 
+    @lru_cache
     def total_cart_items(self):
         """Returns total count of products in user cart."""
         cart_items = self.all()

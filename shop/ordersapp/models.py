@@ -37,6 +37,9 @@ class Order(models.Model):
     status = models.CharField(verbose_name="Status", choices=ORDER_STATUS_CHOICES, max_length=20, default=CREATED)
     is_active = models.BooleanField(verbose_name="Is active", default=True)
 
+    def items_with_products(self):
+        return self.items.select_related("product")
+
     def __str__(self):
         return f"Order №{self.id}"
 
