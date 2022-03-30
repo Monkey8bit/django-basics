@@ -30,6 +30,17 @@
         <a href="{% url 'cart:add' hot_product.pk %}" class="red-button">
             Add to cart<i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>
+        <script type="text/javascript">
+        window.onload = function () {
+            var quantity = {{ hot_product.quantity }};
+            if (quantity - 1 < 0) {
+            var buy_button = document.getElementsByClassName("red-button")[0];
+            buy_button.style.pointerEvents = "none";
+            buy_button.style.opacity = "0.5";
+            buy_button.text = "Sorry, out of stock";
+            }
+        }
+  </script>
         <div class="description-text">
             {{ hot_product.description|linebreaks }}
         </div>

@@ -1,3 +1,4 @@
+import pdb
 from django.views.generic import (
     CreateView,
     UpdateView,
@@ -15,6 +16,7 @@ from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.urls import reverse_lazy, reverse
 
+from functools import lru_cache
 from cartapp.models import Cart
 from mainapp.models import Product
 from .models import Order, OrderItem
@@ -22,9 +24,10 @@ from .forms import OrderForm, OrderItemForm
 
 
 class OrderEditMixin:
+    @lru_cache()
     def make_formset(self, instance=None):
         OrderFormSet = inlineformset_factory(
-            Order, OrderItem, form=OrderItemForm, extra=1
+            Order, OrderItem, form=OrderItemForm, extra=0
         )
 
         formset = OrderFormSet(instance=instance)
@@ -42,12 +45,12 @@ class OrderEditMixin:
                     for num, form in enumerate(formset.forms):
                         form.initial["product"] = cart_items[num].product
                         form.initial["quantity"] = cart_items[num].quantity
-                        form.initial["price"] = cart_items[num].price
+                        form.initial["price"] = cart_items[num].product_price
                     cart_items.delete()
             
         self.add_price_to_formset_forms(formset)
         return formset
-
+    
     def add_price_to_formset_forms(self, formset):
         for form in formset.forms:
             if form.instance.pk:
@@ -120,6 +123,12 @@ class OrderList(ListView):
 
 class OrderDetail(DetailView):
     model = Order
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["order_quantity"] = self.object.get_total_quantity()
+        context["order_price"] = self.object.get_total_cost()
+        return context
 
 
 def order_forming_complete(request, pk):
