@@ -1,6 +1,8 @@
 {% extends 'mainapp/base.html' %}
+{% load cache %}
 {% load static %}
 {% block content %}
+{% cache 3600 contact_page_content %}
 <div class="hero">
 	
 	{% include 'mainapp/includes/inc_menu.html' %}
@@ -60,6 +62,7 @@
 </div>
 
 <div class="clr"></div>
+{% endcache %}
 {% endblock content %}	
 
 {% include 'mainapp/includes/inc_footer.html' %}	

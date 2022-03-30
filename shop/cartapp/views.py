@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
@@ -27,6 +28,10 @@ def add_item(request, product_id):
         return HttpResponseRedirect(reverse("products:product", args=[product_id]))
 
     product = get_object_or_404(Product, pk=product_id)
+    if product.quantity - 1 < 0:
+        return HttpResponse(
+            "<script>alert('Sorry, this product is out of stock.');</script>"
+            )
     cart_item = Cart.objects.filter(user=request.user, product=product)
 
     if cart_item:

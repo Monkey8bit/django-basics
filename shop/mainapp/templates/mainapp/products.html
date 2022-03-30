@@ -13,7 +13,7 @@
 			<li><a href="{% url 'product:index' %}"
 				{% if request.resolver_match.view_name == 'product:index' %} class="active" 
 				{% endif %}>all</a></li>
-				{% for category in categories%}
+				{% for category in categories %}
 				<li><a href="{% url 'product:category' category.pk %}" 
 					{% if request.resolver_match.kwargs.pk == category.pk %}
 					class='active'

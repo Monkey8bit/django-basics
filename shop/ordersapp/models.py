@@ -37,12 +37,15 @@ class Order(models.Model):
     status = models.CharField(verbose_name="Status", choices=ORDER_STATUS_CHOICES, max_length=20, default=CREATED)
     is_active = models.BooleanField(verbose_name="Is active", default=True)
 
+    def items_with_products(self):
+        return self.items.select_related("product")
+
     def __str__(self):
         return f"Order №{self.id}"
 
     def get_total_cost(self):
         return sum(item.cost for item in self.items.select_related())
-
+    
     def get_total_quantity(self):
         items = self.items.select_related()
         return sum(list(map(lambda x: x.quantity, items)))
